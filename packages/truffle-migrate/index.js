@@ -144,10 +144,11 @@ const Migrate = {
             .run(clone)
             .then(() => {
               finished();
-            })
-            .catch(error => {
-              finished(error);
             });
+            // FIXME
+            // .catch(error => {
+            //   finished(error);
+            // });
         },
         error => {
           if (error) return reject(error);

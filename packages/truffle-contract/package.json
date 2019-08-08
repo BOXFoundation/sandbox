@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "bignumber.js": "^7.2.1",
+    "boxdjs": "^1.0.2",
     "ethers": "^4.0.0-beta.1",
+    "isomorphic-fetch": "^2.2.1",
     "truffle-blockchain-utils": "^0.0.10",
     "truffle-contract-schema": "^3.0.11",
     "truffle-error": "^0.0.5",

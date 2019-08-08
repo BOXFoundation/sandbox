@@ -1,4 +1,6 @@
 const debug = require("debug")("contract:execute"); // eslint-disable-line no-unused-vars
+const boxdjs = require("boxdjs");
+const fetch = require("isomorphic-fetch");
 var Web3PromiEvent = require("web3-core-promievent");
 var EventEmitter = require("events");
 var utils = require("./utils");
@@ -7,6 +9,47 @@ var Reason = require("./reason");
 var handlers = require("./handlers");
 var override = require("./override");
 var reformat = require("./reformat");
+
+const cor = new boxdjs.default.Api(fetch, "http://127.0.0.1:19110", 'http');
+const feature = new boxdjs.default.Feature(fetch, "http://127.0.0.1:19110", 'http');
+const src = "b1iH6rDq4N5KYGyGzkqzA45UXAjfxQux7xE";
+const contractByteCode =
+  '608060405234801561001057600080fd5b50606460008190555033600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555061024e806100696000396000f3fe60806040526004361061005c576000357c010000000000000000000000000000000000000000000000000000000090048063075461721461006157806312065fe0146100b8578063aa271e1a146100e3578063b32fe94f1461014c575b600080fd5b34801561006d57600080fd5b50610076610187565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156100c457600080fd5b506100cd6101ad565b6040518082815260200191505060405180910390f35b3480156100ef57600080fd5b506101326004803603602081101561010657600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506101b6565b604051808215151515815260200191505060405180910390f35b34801561015857600080fd5b506101856004803603602081101561016f57600080fd5b8101908080359060200190929190505050610210565b005b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008054905090565b6000600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff16149050919050565b8060008082825401925050819055505056fea165627a7a723058205c2c787af632722a11ec1d9c3628e84a206af0b9c8484816ff4504f46666571d0029'
+const keystore = {
+  "id": "",
+  "address": "b1iH6rDq4N5KYGyGzkqzA45UXAjfxQux7xE",
+  "crypto": {
+    "cipher": "aes-128-ctr",
+    "ciphertext": "698e0314c0eb1cf6b120d2bede2379456421146b52d1aa80646b93f1322b62bc",
+    "cipherparams": {
+      "iv": "8416aaaf5af475551dd715fac8e38287"
+    },
+    "mac": "2354e7673765118149de2373c92a4ac6f36a74db2cc775fdd8c77453e31f8090",
+    "kdfparams": {
+      "salt": "81c78fa086983d60d4c602c2449a19fd794cc2c32fc7062be8daf2bfb4154a67",
+      "n": 262144,
+      "r": 8,
+      "p": 1,
+      "dklen": 32
+    }
+  }
+}
+
+async function getNonce() {
+  let addrNonce = 0
+
+  await cor
+    .getNonce(src)
+    .then(result => {
+      addrNonce = result.nonce;
+    })
+    .catch(err => {
+      debug('getNonce err: %O', err)
+    })
+
+  debug('nonce: %O', addrNonce)
+  return addrNonce
+}
 
 var execute = {
   // -----------------------------------  Helpers --------------------------------------------------
@@ -193,7 +236,7 @@ var execute = {
    * @param  {Number} blockLimit      `block.gasLimit`
    * @return {PromiEvent}             Resolves a TruffleContract instance
    */
-  deploy: function(args, context, blockLimit) {
+  deploy: async function(args, context, blockLimit) {
     var constructor = this;
 
     var abi = constructor.abi;
@@ -203,6 +246,11 @@ var execute = {
 
     var web3 = constructor.web3;
     var params = utils.getTxParams.call(constructor, constructorABI, args);
+    debug("constructorABI %O", constructorABI);
+    debug("args: %O", args);
+    debug("params: %O", params);
+    debug("context: %O", context);
+    
     var deferred;
 
     var options = {
@@ -213,11 +261,45 @@ var execute = {
     var contract = new web3.eth.Contract(abi);
     params.data = contract.deploy(options).encodeABI();
 
+    context.params = params;
+    var addrNonce = +(await getNonce());
+
+    const receipt = await feature.makeContractTxByCrypto({
+      tx: {
+        from: src,
+        to: '',
+        amount: 0,
+        gasPrice: 2,
+        gasLimit: 2000000,
+        nonce: addrNonce + 1,
+        isDeploy: true,
+        data: contractByteCode
+      },
+      crypto: keystore,
+      pwd: "1"
+    });
+    debug('receipt: %O', receipt);
+    const contractAddr = receipt.contractAddr;
+    debug('contract deployed at: %O', contractAddr);
+    var hexAddr = boxdjs.default.Util.box2HexAddr(contractAddr);
+    debug('hexAddr: %O', hexAddr);
+    console.log('contracting.......');
+    var web3Instance = new web3.eth.Contract(
+      abi,
+      '0x' + hexAddr
+    );
+    web3Instance.transactionHash = '0x' + receipt.hash;
+
+    context.promiEvent.resolve(new constructor(web3Instance));
+    console.log('contracting.......222');
+    return;
+
     execute.getGasEstimate
       .call(constructor, params, blockLimit)
       .then(gas => {
         params.gas = gas;
         context.params = params;
+        debug("params2: %O", params);
         deferred = web3.eth.sendTransaction(params);
         handlers.setup(deferred, context);
 

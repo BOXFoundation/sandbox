@@ -158,7 +158,11 @@ const Utils = {
     ) {
       tx_params = args.pop();
     }
-
+    debug("methodABI %O", methodABI);
+    debug("args: %O", args);
+    debug("tx_params %O", tx_params);
+    debug("defaults: %O", constructor.class_defaults);
+    
     return Utils.merge(constructor.class_defaults, tx_params);
   },
 
