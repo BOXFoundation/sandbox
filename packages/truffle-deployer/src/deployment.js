@@ -276,6 +276,9 @@ class Deployment {
    */
   executeDeployment(contract, args) {
     const self = this;
+    // remove postfix: 'ropsten-fork' -> 'ropsten'
+    const conf = this.networks[this.network.slice(0, -5)];
+    contract.endpoint = conf.endpoint;
 
     return async function() {
       await self._preFlightCheck(contract);

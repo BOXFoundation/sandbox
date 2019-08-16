@@ -10,8 +10,6 @@ var handlers = require("./handlers");
 var override = require("./override");
 var reformat = require("./reformat");
 
-const cor = new boxdjs.default.Api(fetch, "http://127.0.0.1:19110", 'http');
-const feature = new boxdjs.default.Feature(fetch, "http://127.0.0.1:19110", 'http');
 const src = "b1iH6rDq4N5KYGyGzkqzA45UXAjfxQux7xE";
 const keystore = {
   "id": "",
@@ -33,8 +31,9 @@ const keystore = {
   }
 }
 
-async function getNonce() {
-  let addrNonce = 0
+async function getNonce(endpoint) {
+  let addrNonce = 0;
+  const cor = new boxdjs.default.Api(fetch, "http://" + endpoint, 'http');
 
   await cor
     .getNonce(src)
@@ -42,11 +41,10 @@ async function getNonce() {
       addrNonce = result.nonce;
     })
     .catch(err => {
-      debug('getNonce err: %O', err)
-    })
+      debug('getNonce err: %O', err);
+    });
 
-  debug('nonce: %O', addrNonce)
-  return addrNonce
+  return addrNonce;
 }
 
 var execute = {
@@ -260,8 +258,9 @@ var execute = {
     params.data = contract.deploy(options).encodeABI();
 
     context.params = params;
-    var addrNonce = +(await getNonce());
+    var addrNonce = +(await getNonce(context.contract.endpoint));
 
+    const feature = new boxdjs.default.Feature(fetch, "http://" + context.contract.endpoint, 'http');
     const receipt = await feature.makeContractTxByCrypto({
       tx: {
         from: src,
