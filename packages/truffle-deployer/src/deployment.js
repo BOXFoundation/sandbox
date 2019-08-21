@@ -279,6 +279,7 @@ class Deployment {
     // remove postfix: 'ropsten-fork' -> 'ropsten'
     const conf = this.networks[this.network.slice(0, -5)];
     contract.endpoint = conf.endpoint;
+    contract.privateKey = conf.privateKey;
 
     return async function() {
       await self._preFlightCheck(contract);

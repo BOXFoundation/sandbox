@@ -11,25 +11,6 @@ var override = require("./override");
 var reformat = require("./reformat");
 
 const src = "b1iH6rDq4N5KYGyGzkqzA45UXAjfxQux7xE";
-const keystore = {
-  "id": "",
-  "address": "b1iH6rDq4N5KYGyGzkqzA45UXAjfxQux7xE",
-  "crypto": {
-    "cipher": "aes-128-ctr",
-    "ciphertext": "698e0314c0eb1cf6b120d2bede2379456421146b52d1aa80646b93f1322b62bc",
-    "cipherparams": {
-      "iv": "8416aaaf5af475551dd715fac8e38287"
-    },
-    "mac": "2354e7673765118149de2373c92a4ac6f36a74db2cc775fdd8c77453e31f8090",
-    "kdfparams": {
-      "salt": "81c78fa086983d60d4c602c2449a19fd794cc2c32fc7062be8daf2bfb4154a67",
-      "n": 262144,
-      "r": 8,
-      "p": 1,
-      "dklen": 32
-    }
-  }
-}
 
 async function getNonce(endpoint) {
   let addrNonce = 0;
@@ -261,8 +242,8 @@ var execute = {
     var addrNonce = +(await getNonce(context.contract.endpoint));
 
     const feature = new boxdjs.default.Feature(fetch, "http://" + context.contract.endpoint, 'http');
-    const receipt = await feature.makeContractTxByCrypto({
-      tx: {
+    const receipt = await feature.makeContractTxByPrivKey(
+      {
         from: src,
         to: '',
         amount: 0,
@@ -272,9 +253,8 @@ var execute = {
         isDeploy: true,
         data: params.data.slice(2)  // remove '0x' prefix
       },
-      crypto: keystore,
-      pwd: "1"
-    });
+      context.contract.privateKey
+    );
     debug('receipt: %O', receipt);
     const contractAddr = receipt.contractAddr;
     debug('contract deployed at: %O', contractAddr);
