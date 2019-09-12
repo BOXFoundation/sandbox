@@ -2,6 +2,7 @@ const ReplManager = require("./repl");
 const Command = require("./command");
 const provision = require("truffle-provisioner");
 const contract = require("truffle-contract");
+const boxdjs = require("boxdjs");
 const { Web3Shim } = require("truffle-interface-adapter");
 const vm = require("vm");
 const expect = require("truffle-expect");
@@ -60,6 +61,7 @@ class Console extends EventEmitter {
         prompt: "truffle(" + this.options.network + ")> ",
         context: {
           web3: this.web3,
+          Contract: boxdjs.default.Contract,
           accounts: getAccounts()
         },
         interpreter: this.interpret.bind(this),
@@ -88,6 +90,15 @@ class Console extends EventEmitter {
 
     let jsonBlobs = [];
     files = files || [];
+
+    const cfg = this.options.networks[this.options.network];
+    if (cfg) {
+      boxdjs.default.Contract.setProvider(
+        "http://" + cfg.endpoint,
+        cfg.from,
+        cfg.privateKey
+      );
+    }
 
     files.forEach(file => {
       try {

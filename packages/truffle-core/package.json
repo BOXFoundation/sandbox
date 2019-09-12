@@ -19,6 +19,7 @@
     "app-module-path": "^2.2.0",
     "async": "2.6.1",
     "bip39": "^2.2.0",
+    "boxdjs": "^1.0.8",
     "chai": "4.2.0",
     "colors": "^1.1.2",
     "command-exists": "^1.2.8",
