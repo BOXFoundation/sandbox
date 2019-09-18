@@ -89,8 +89,8 @@ class Migration {
           await this.emitter.emit("startTransaction", data);
         }
 
-        const migrations = await Migrations.deployed();
-        const receipt = await migrations.setCompleted(this.number);
+        // const migrations = await Migrations.deployed();
+        // const receipt = await migrations.setCompleted(this.number);
 
         if (!this.dryRun) {
           const data = { receipt: receipt, message: message };

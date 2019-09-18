@@ -187,19 +187,19 @@ const command = {
           conf.dryRun = true;
           await setupDryRunEnvironmentThenRunMigrations(conf);
         } else if (dryRunAndMigrations) {
-          const currentBuild = conf.contracts_build_directory;
+          // const currentBuild = conf.contracts_build_directory;
           conf.dryRun = true;
 
           await setupDryRunEnvironmentThenRunMigrations(conf);
 
-          let {
-            config,
-            proceed
-          } = await command.prepareConfigForRealMigrations(
-            currentBuild,
-            options
-          );
-          if (proceed) await runMigrations(config);
+          // let {
+          //   config,
+          //   proceed
+          // } = await command.prepareConfigForRealMigrations(
+          //   currentBuild,
+          //   options
+          // );
+          // if (proceed) await runMigrations(config);
         } else {
           await runMigrations(conf);
         }
@@ -236,7 +236,6 @@ const command = {
         await Migrate.runFrom(options.f, config);
       } else {
         const needsMigrating = await Migrate.needsMigrating(config);
-
         if (needsMigrating) {
           await Migrate.run(config);
         } else {

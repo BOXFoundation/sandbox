@@ -257,10 +257,9 @@ var execute = {
     );
     debug('receipt: %O', receipt);
     const contractAddr = receipt.contractAddr;
-    debug('contract deployed at: %O', contractAddr);
+    console.log('contract deployed at ' + contractAddr);
     var hexAddr = boxdjs.default.Util.box2HexAddr(contractAddr);
     debug('hexAddr: %O', hexAddr);
-    console.log('contracting.......');
     var web3Instance = new web3.eth.Contract(
       abi,
       '0x' + hexAddr
@@ -268,47 +267,45 @@ var execute = {
     web3Instance.transactionHash = '0x' + receipt.hash;
 
     context.promiEvent.resolve(new constructor(web3Instance));
-    console.log('contracting.......222');
-    return;
 
-    execute.getGasEstimate
-      .call(constructor, params, blockLimit)
-      .then(gas => {
-        params.gas = gas;
-        context.params = params;
-        debug("params2: %O", params);
-        deferred = web3.eth.sendTransaction(params);
-        handlers.setup(deferred, context);
+    // execute.getGasEstimate
+    //   .call(constructor, params, blockLimit)
+    //   .then(gas => {
+    //     params.gas = gas;
+    //     context.params = params;
+    //     debug("params2: %O", params);
+    //     deferred = web3.eth.sendTransaction(params);
+    //     handlers.setup(deferred, context);
 
-        deferred
-          .then(async receipt => {
-            if (receipt.status !== undefined && !receipt.status) {
-              var reason = await Reason.get(params, web3);
+    //     deferred
+    //       .then(async receipt => {
+    //         if (receipt.status !== undefined && !receipt.status) {
+    //           var reason = await Reason.get(params, web3);
 
-              var error = new StatusError(
-                params,
-                context.transactionHash,
-                receipt,
-                reason
-              );
+    //           var error = new StatusError(
+    //             params,
+    //             context.transactionHash,
+    //             receipt,
+    //             reason
+    //           );
 
-              return context.promiEvent.reject(error);
-            }
+    //           return context.promiEvent.reject(error);
+    //         }
 
-            var web3Instance = new web3.eth.Contract(
-              abi,
-              receipt.contractAddress
-            );
-            web3Instance.transactionHash = context.transactionHash;
+    //         var web3Instance = new web3.eth.Contract(
+    //           abi,
+    //           receipt.contractAddress
+    //         );
+    //         web3Instance.transactionHash = context.transactionHash;
 
-            context.promiEvent.resolve(new constructor(web3Instance));
+    //         context.promiEvent.resolve(new constructor(web3Instance));
 
-            // Manage web3's 50 blocks' timeout error.
-            // Web3's own subscriptions go dead here.
-          })
-          .catch(override.start.bind(constructor, context));
-      })
-      .catch(context.promiEvent.reject);
+    //         // Manage web3's 50 blocks' timeout error.
+    //         // Web3's own subscriptions go dead here.
+    //       })
+    //       .catch(override.start.bind(constructor, context));
+    //   })
+    //   .catch(context.promiEvent.reject);
   },
 
   /**

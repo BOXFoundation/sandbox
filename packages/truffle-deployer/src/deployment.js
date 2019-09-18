@@ -324,14 +324,14 @@ class Deployment {
 
         // Get an estimate for previews / detect constructor revert
         // NB: web3 does not strip the revert msg here like it does for `deploy`
-        try {
-          eventArgs.estimate = await contract.new.estimateGas.apply(
-            contract,
-            newArgs
-          );
-        } catch (err) {
-          eventArgs.estimateError = err;
-        }
+        // try {
+        //   eventArgs.estimate = await contract.new.estimateGas.apply(
+        //     contract,
+        //     newArgs
+        //   );
+        // } catch (err) {
+        //   eventArgs.estimateError = err;
+        // }
 
         // Emit `preDeploy` & send transaction
         await self.emitter.emit("preDeploy", eventArgs);
@@ -341,11 +341,11 @@ class Deployment {
         self.promiEventEmitters.push(promiEvent);
 
         // Subscribe to contract events / rebroadcast them to any reporters
-        promiEvent
-          .on("transactionHash", self._hashCb.bind(promiEvent, self, state))
-          .on("receipt", self._receiptCb.bind(promiEvent, self, state));
+        // promiEvent
+        //   .on("transactionHash", self._hashCb.bind(promiEvent, self, state))
+        //   .on("receipt", self._receiptCb.bind(promiEvent, self, state));
 
-        await self._startBlockPolling(contract.web3);
+        // await self._startBlockPolling(contract.web3);
 
         // Get instance (or error)
         try {
@@ -381,7 +381,7 @@ class Deployment {
         receipt: state.receipt
       };
 
-      await self.emitter.emit("postDeploy", eventArgs);
+      // await self.emitter.emit("postDeploy", eventArgs);
 
       // Wait for `n` blocks
       if (self.confirmations !== 0 && shouldDeploy) {
