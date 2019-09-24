@@ -1,7 +1,7 @@
 const ReplManager = require("./repl");
 const Command = require("./command");
 const provision = require("truffle-provisioner");
-const contract = require("truffle-contract");
+const contract = require("sandbox-contract");
 const boxdjs = require("boxdjs");
 const { Web3Shim } = require("truffle-interface-adapter");
 const vm = require("vm");

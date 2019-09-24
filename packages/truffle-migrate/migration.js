@@ -1,5 +1,5 @@
 const path = require("path");
-const Deployer = require("truffle-deployer");
+const Deployer = require("sandbox-deployer");
 const Require = require("truffle-require");
 const Emittery = require("emittery");
 const {

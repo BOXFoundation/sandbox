@@ -132,7 +132,7 @@ const command = {
   prepareConfigForRealMigrations: async function(buildDir, options) {
     const Artifactor = require("truffle-artifactor");
     const Resolver = require("truffle-resolver");
-    const Migrate = require("truffle-migrate");
+    const Migrate = require("sandbox-migrate");
     const Config = require("truffle-config");
     const { Environment } = require("truffle-environment");
 
@@ -165,7 +165,7 @@ const command = {
   run: function(options, done) {
     const Artifactor = require("truffle-artifactor");
     const Resolver = require("truffle-resolver");
-    const Migrate = require("truffle-migrate");
+    const Migrate = require("sandbox-migrate");
     const Contracts = require("truffle-workflow-compile");
     const { Environment } = require("truffle-environment");
     const Config = require("truffle-config");

@@ -1,5 +1,5 @@
 {
-  "name": "truffle-deployer",
+  "name": "sandbox-deployer",
   "description": "Light deployment module for easily deploying Ethereum contracts",
   "license": "MIT",
   "author": "Tim Coulter <tim.coulter@consensys.net>",
@@ -8,14 +8,14 @@
   "bugs": {
     "url": "https://github.com/trufflesuite/truffle-deployer/issues"
   },
-  "version": "3.0.26",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "mocha --no-warnings --timeout 10000 --exit"
   },
   "dependencies": {
     "emittery": "^0.4.0",
-    "truffle-contract": "^4.0.25",
+    "sandbox-contract": "^1.0.0",
     "truffle-expect": "^0.0.9"
   },
   "devDependencies": {

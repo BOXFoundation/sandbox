@@ -10,7 +10,7 @@ const TestResolver = require("./testing/testresolver");
 const TestSource = require("./testing/testsource");
 const SolidityTest = require("./testing/soliditytest");
 const expect = require("truffle-expect");
-const Migrate = require("truffle-migrate");
+const Migrate = require("sandbox-migrate");
 const Profiler = require("truffle-compile/profiler");
 const originalrequire = require("original-require");
 

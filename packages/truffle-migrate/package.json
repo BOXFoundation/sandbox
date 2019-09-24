@@ -1,5 +1,5 @@
 {
-  "name": "truffle-migrate",
+  "name": "sandbox-migrate",
   "description": "On-chain migrations management",
   "license": "MIT",
   "author": "Tim Coulter <tim.coulter@consensys.net>",
@@ -8,7 +8,7 @@
   "bugs": {
     "url": "https://github.com/trufflesuite/truffle-migrate/issues"
   },
-  "version": "3.0.26",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./test/* ./test/**/*"
@@ -17,6 +17,7 @@
     "async": "2.6.1",
     "emittery": "^0.4.0",
     "node-dir": "0.1.17",
+    "sandbox-deployer": "^1.0.0",
     "truffle-config": "^1.1.15",
     "truffle-expect": "^0.0.9",
     "truffle-interface-adapter": "^0.2.0",
