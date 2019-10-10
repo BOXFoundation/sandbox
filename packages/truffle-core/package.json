@@ -1,16 +1,15 @@
 {
-  "name": "truffle-core",
-  "description": "Core code for Truffle command line tool",
-  "author": "consensys.net",
-  "homepage": "https://github.com/ConsenSys/truffle",
-  "repository": "https://github.com/trufflesuite/truffle/tree/master/packages/truffle-core",
+  "name": "contentbox",
+  "description": "ContentBox - Simple development framework for ContentBox",
+  "author": "contentbox.one",
+  "homepage": "https://github.com/BOXFoundation/sandbox",
+  "repository": "https://github.com/BOXFoundation/sandbox/tree/master/packages/truffle",
   "bugs": {
-    "url": "https://github.com/ConsenSys/truffle/issues"
+    "url": "https://github.com/BOXFoundation/sandbox/issues"
   },
-  "version": "5.0.28",
+  "version": "0.0.4",
   "bin": {
-    "truffle": "./cli.js",
-    "truffle-exec": "./exec.js"
+    "sandbox": "./cli.js"
   },
   "scripts": {
     "test": "mocha ./test/** ./test/**/*"

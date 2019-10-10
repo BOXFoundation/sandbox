@@ -151,14 +151,12 @@ class Command {
   displayGeneralHelp() {
     this.args
       .usage(
-        "Truffle v" +
-          (bundled || core) +
-          " - a development framework for Ethereum" +
+        "Sandbox - a development framework for ContentBox" +
           OS.EOL +
           OS.EOL +
-          "Usage: truffle <command> [options]"
+          "Usage: sandbox <command> [options]"
       )
-      .epilog("See more at http://truffleframework.com/docs")
+      .epilog("See more at https://github.com/BOXFoundation/sandbox")
       .showHelp();
   }
 }
