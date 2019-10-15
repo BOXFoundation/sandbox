@@ -232,6 +232,8 @@ const command = {
     async function runMigrations(config) {
       Migrate.launchReporter();
 
+      // always deploy
+      options.f = options.f || 1;
       if (options.f) {
         await Migrate.runFrom(options.f, config);
       } else {
