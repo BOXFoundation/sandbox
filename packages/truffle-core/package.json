@@ -7,7 +7,7 @@
   "bugs": {
     "url": "https://github.com/BOXFoundation/sandbox/issues"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "bin": {
     "sandbox": "./cli.js"
   },
