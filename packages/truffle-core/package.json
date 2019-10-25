@@ -7,7 +7,7 @@
   "bugs": {
     "url": "https://github.com/BOXFoundation/sandbox/issues"
   },
-  "version": "0.0.5",
+  "version": "0.0.7",
   "bin": {
     "sandbox": "./cli.js"
   },
@@ -18,7 +18,7 @@
     "app-module-path": "^2.2.0",
     "async": "2.6.1",
     "bip39": "^2.2.0",
-    "boxdjs": "^1.0.8",
+    "boxdjs": "^1.0.9",
     "chai": "4.2.0",
     "colors": "^1.1.2",
     "command-exists": "^1.2.8",
