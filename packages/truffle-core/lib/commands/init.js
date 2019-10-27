@@ -3,7 +3,7 @@ var command = {
   description: "Initialize new and empty Ethereum project",
   builder: {},
   help: {
-    usage: "truffle init [--force]",
+    usage: "sandbox init [--force]",
     options: [
       {
         option: "--force",
@@ -25,19 +25,17 @@ var command = {
 
     if (options._ && options._.length > 0) {
       config.logger.log(
-        "Error: `truffle init` no longer accepts a project template name as an argument."
+        "Error: `sandbox init` no longer accepts a project template name as an argument."
       );
       config.logger.log();
       config.logger.log(
-        " - For an empty project, use `truffle init` with no arguments" +
-          OS.EOL +
-          " - Or, browse the Truffle Boxes at <http://truffleframework.com/boxes>!"
+        " - For an empty project, use `sandbox init` with no arguments" + OS.EOL
       );
       process.exit(1);
     }
 
-    // defer to `truffle unbox` command with "bare" box as arg
-    var url = "https://github.com/truffle-box/bare-box.git";
+    // defer to `sandbox unbox` command with "bare" box as arg
+    var url = "https://github.com/BOXFoundation/sandbox-framework";
     options._ = [url];
 
     UnboxCommand.run(options, done);
