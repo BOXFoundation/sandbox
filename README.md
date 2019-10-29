@@ -22,15 +22,35 @@ $ npm install -g contentbox
 
 ## Quick Usage
 
-For a sample set of contracts and tests, run the following within an empty project directory:
+To create a sample sandbox project, run the following within an empty project directory:
 
 ```
-$ sandbox unbox metacoin
+$ sandbox init
 ```
-From there, you can run `sandbox compile`, `sandbox migrate` and `sandbox console` to compile your contracts, deploy those contracts to the network, and run their associated unit tests.
+This creates a project with the following structure.
+```
+├── README
+├── contracts
+│   ├── Migrations.sol
+│   └── SimpleStorage.sol
+├── migrations
+│   └── 1_deploy_contracts.js
+├── package.json
+└── truffle-config.js
+```
+From there, you can run `sandbox compile`, `sandbox migrate` and `sandbox console` to compile your contracts, deploy those contracts to the network, and interact with them.
 
 ### Deploy
-Place your contract under `contracts/` and update `migrations/1_deploy_contracts.js` accordingly. Also configure `truffle-config.js` properly.
+Place your contract under `contracts/` and update `migrations/1_deploy_contracts.js` accordingly. Also configure `truffle-config.js` properly. For example,
+```
+-      endpoint: "127.0.0.1:19110",
+-      from: "b1iH6rDq4N5KYGyGzkqzA45UXAjfxQux7xE",
+-      privateKey: "0fb5104cbf4814dbd5ae3855d6168ceb255f079b9a86bfcd56b965d9d478441b",
++      endpoint: "127.0.0.1:3000",
++      from: "b1ZWSdrg48g145VdcmBwMPVuDFdaxDLoktk",
++      privateKey: "1b8e5830ae669496a11f00c90b12ecb8ccf1b6e2660a86ab1dbd24085b43247f",
+```
+Deploy your contract.
 ```
 $ sandbox migrate
 Migrations dry-run (simulation)
